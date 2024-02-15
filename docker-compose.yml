@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  php:
+    image: php:apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    command: >
+      sh -c "docker-php-ext-install pdo pdo_mysql && apache2-foreground"
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty123
+      MYSQL_DATABASE: user
